@@ -71,7 +71,6 @@ namespace xlsxToXml
                 XmlDocument doc = new XmlDocument();
                 XmlDeclaration declaire = doc.CreateXmlDeclaration("1.0", "utf-8", null); //+
                 // -----------------------create root-----------------------------  
-                //XmlElement rootnode = doc.CreateElement("root"); 
                 XmlElement creditInfo = doc.CreateElement("CreditInfo");
                 doc.InsertBefore(declaire, doc.DocumentElement);
                 doc.AppendChild(creditInfo);
@@ -84,25 +83,15 @@ namespace xlsxToXml
                     {
                         id1 = id;
 
-
-                        /*DateTime d = Convert.ToDateTime(dt.Rows[i].ItemArray[4]);
-                        string str = Convert.ToDateTime(d.ToString("dd-MMMM-yyyy")).ToString("MMMM-dd-yyyy");
-                        string finaldate = str.Replace(d.Year.ToString(), DateTime.Now.ToString("yyyy"));
-
-
-                        XmlElement dobEle = doc.CreateElement("DOB");
-                        dobEle.SetAttribute("date", finaldate);*/
-
-
                         XmlElement header = doc.CreateElement("Header");    //header yuxari qaldirmaq lazimdi
 
                         XmlElement bankId = doc.CreateElement("BankID");    //header's children
                         XmlElement bankName = doc.CreateElement("BankName");
                         XmlElement reportingDate = doc.CreateElement("ReportingDate");
 
-                        bankId.InnerText = dt.Rows[i].ItemArray[1].ToString();
-                        bankName.InnerText = dt.Rows[i].ItemArray[2].ToString();
-                        reportingDate.InnerText = dt.Rows[i].ItemArray[3].ToString();
+                        bankId.InnerText = dt.Rows[i].ItemArray[0].ToString();
+                        bankName.InnerText = dt.Rows[i].ItemArray[1].ToString();
+                        reportingDate.InnerText = dt.Rows[i].ItemArray[2].ToString();
 
                         header.AppendChild(bankId);
                         header.AppendChild(bankName);
@@ -111,24 +100,11 @@ namespace xlsxToXml
 
                         doc.DocumentElement.AppendChild(header);
 
-
+                        XmlElement credits = doc.CreateElement("Credits");
                         do
                         {
-                            //<?xml version="1.0" encoding="UTF-8"?>
-                            //credit info
-                            //header
-                            //credits
-                            //credit
-                            //group -> borrower
-                            //others
-
-
-
                             #region main 
                             
-
-                            XmlElement credits = doc.CreateElement("Credits");
-
                             XmlElement credit = doc.CreateElement("Credit");
                             XmlElement borrower = doc.CreateElement("Borrower");
 
@@ -140,13 +116,13 @@ namespace xlsxToXml
                             XmlElement placeOfBirth = doc.CreateElement("PlaceOfBirth");
                             XmlElement pinCode = doc.CreateElement("PinCode");
 
-                            idd.InnerText = dt.Rows[i].ItemArray[4].ToString();
-                            name.InnerText = dt.Rows[i].ItemArray[5].ToString();
-                            countryCode.InnerText = dt.Rows[i].ItemArray[6].ToString();
-                            bankruptcyStatus.InnerText = dt.Rows[i].ItemArray[7].ToString();
-                            dateOfBirth.InnerText = dt.Rows[i].ItemArray[8].ToString();
-                            placeOfBirth.InnerText = dt.Rows[i].ItemArray[9].ToString();
-                            pinCode.InnerText = dt.Rows[i].ItemArray[10].ToString();
+                            idd.InnerText = dt.Rows[i].ItemArray[3].ToString();
+                            name.InnerText = dt.Rows[i].ItemArray[4].ToString();
+                            countryCode.InnerText = dt.Rows[i].ItemArray[5].ToString();
+                            bankruptcyStatus.InnerText = dt.Rows[i].ItemArray[6].ToString();
+                            dateOfBirth.InnerText = dt.Rows[i].ItemArray[7].ToString();
+                            placeOfBirth.InnerText = dt.Rows[i].ItemArray[8].ToString();
+                            pinCode.InnerText = dt.Rows[i].ItemArray[9].ToString();
 
                             borrower.AppendChild(idd);
                             borrower.AppendChild(name);
@@ -155,7 +131,6 @@ namespace xlsxToXml
                             borrower.AppendChild(dateOfBirth);
                             borrower.AppendChild(placeOfBirth);
                             borrower.AppendChild(pinCode);
-
 
 
                             XmlElement accountNo = doc.CreateElement("AccountNo");     // 
@@ -179,37 +154,36 @@ namespace xlsxToXml
                             XmlElement creditClassCode = doc.CreateElement("CreditClassCode");
                             XmlElement creditStatusCode = doc.CreateElement("CreditStatusCode");
 
-                            accountNo.InnerText = dt.Rows[i].ItemArray[11].ToString();
-                            currencyOfCredit.InnerText = dt.Rows[i].ItemArray[12].ToString();
-                            creditType.InnerText = dt.Rows[i].ItemArray[13].ToString();
-                            initialAmountOfCredit.InnerText = dt.Rows[i].ItemArray[14].ToString();
-                            creditLineAmount.InnerText = dt.Rows[i].ItemArray[15].ToString();
-                            disoutAmountOfCredit.InnerText = dt.Rows[i].ItemArray[16].ToString();
-                            annualInterestRate.InnerText = dt.Rows[i].ItemArray[17].ToString();
-                            purposeOfCredit.InnerText = dt.Rows[i].ItemArray[18].ToString();
-                            creditPeriodInMonths.InnerText = dt.Rows[i].ItemArray[19].ToString();
-                            dateOfGrant.InnerText = dt.Rows[i].ItemArray[20].ToString();
-                            dueTimeFirstContract.InnerText = dt.Rows[i].ItemArray[21].ToString();
-                            dueTimeLastContract.InnerText = dt.Rows[i].ItemArray[22].ToString();
+                            accountNo.InnerText = dt.Rows[i].ItemArray[10].ToString();
+                            currencyOfCredit.InnerText = dt.Rows[i].ItemArray[11].ToString();
+                            creditType.InnerText = dt.Rows[i].ItemArray[12].ToString();
+                            initialAmountOfCredit.InnerText = dt.Rows[i].ItemArray[13].ToString();
+                            creditLineAmount.InnerText = dt.Rows[i].ItemArray[14].ToString();
+                            disoutAmountOfCredit.InnerText = dt.Rows[i].ItemArray[15].ToString();
+                            annualInterestRate.InnerText = dt.Rows[i].ItemArray[16].ToString();
+                            purposeOfCredit.InnerText = dt.Rows[i].ItemArray[17].ToString();
+                            creditPeriodInMonths.InnerText = dt.Rows[i].ItemArray[18].ToString();
+                            dateOfGrant.InnerText = dt.Rows[i].ItemArray[19].ToString();
+                            dueTimeFirstContract.InnerText = dt.Rows[i].ItemArray[20].ToString();
+                            dueTimeLastContract.InnerText = dt.Rows[i].ItemArray[21].ToString();
 
-                            lastPaymentDate.InnerText = dt.Rows[i].ItemArray[23].ToString();
-                            monthlyPaymentAmount.InnerText = dt.Rows[i].ItemArray[24].ToString();
-                            daysMainSumIsOverdue.InnerText = dt.Rows[i].ItemArray[25].ToString();
-                            daysInterestIsOverdue.InnerText = dt.Rows[i].ItemArray[26].ToString();
-                            oiaForRepperiod.InnerText = dt.Rows[i].ItemArray[27].ToString();
-                            numberOfProlongs.InnerText = dt.Rows[i].ItemArray[28].ToString();
-                            creditClassCode.InnerText = dt.Rows[i].ItemArray[29].ToString();
-                            creditStatusCode.InnerText = dt.Rows[i].ItemArray[30].ToString();
-
-                            
+                            lastPaymentDate.InnerText = dt.Rows[i].ItemArray[22].ToString();
+                            monthlyPaymentAmount.InnerText = dt.Rows[i].ItemArray[23].ToString();
+                            daysMainSumIsOverdue.InnerText = dt.Rows[i].ItemArray[24].ToString();
+                            daysInterestIsOverdue.InnerText = dt.Rows[i].ItemArray[25].ToString();
+                            oiaForRepperiod.InnerText = dt.Rows[i].ItemArray[26].ToString();
+                            numberOfProlongs.InnerText = dt.Rows[i].ItemArray[27].ToString();
+                            creditClassCode.InnerText = dt.Rows[i].ItemArray[28].ToString();
+                            creditStatusCode.InnerText = dt.Rows[i].ItemArray[29].ToString();
 
 
-                            /*XmlElement collateral = doc.CreateElement("Collateral"); //tag collateral
 
-                            XmlElement collateralTypeCode = doc.CreateElement("CollateralTypeCode"); 
-                            collateralTypeCode.InnerText = dt.Rows[i].ItemArray[31].ToString();
+                            XmlElement collateral = doc.CreateElement("Collateral"); //tag collateral
 
-                            collateral.AppendChild(collateralTypeCode);*/
+                            XmlElement collateralTypeCode = doc.CreateElement("CollateralTypeCode");
+                            collateralTypeCode.InnerText = dt.Rows[i].ItemArray[30].ToString();
+
+                            collateral.AppendChild(collateralTypeCode);
 
 
                             credit.AppendChild(borrower);
@@ -235,39 +209,15 @@ namespace xlsxToXml
                             credit.AppendChild(creditClassCode);
                             credit.AppendChild(creditStatusCode);
 
-                            //credit.AppendChild(collateral);
+                            credit.AppendChild(collateral);
 
                             #endregion
 
-
-                            /*XmlElement emp = doc.CreateElement("EmpDetails");
-                            
-                            XmlElement name1 = doc.CreateElement("Name");
-                            XmlElement desig = doc.CreateElement("Designation");
-                            XmlElement dept = doc.CreateElement("Dept");
-                            XmlElement loc = doc.CreateElement("Location");
-
-                            name1.InnerText = dt.Rows[i].ItemArray[1].ToString();
-                            desig.InnerText = dt.Rows[i].ItemArray[2].ToString();
-                            dept.InnerText = desig.InnerText;
-                            loc.InnerText = dt.Rows[i].ItemArray[3].ToString();
-
-                            emp.AppendChild(desig);
-                            emp.AppendChild(dept);
-                            emp.AppendChild(loc);
-                            emp.AppendChild(name);*/
-
-
-
                             credits.AppendChild(credit);
                             creditInfo.AppendChild(credits);
-                            doc.DocumentElement.AppendChild(credits);
                             i++;
                         } while (id1 == dt.Rows[i].ItemArray[0].ToString() && i < oItem);
-
-
-                        
-
+                        doc.DocumentElement.AppendChild(credits);
                     }
                 }
 
