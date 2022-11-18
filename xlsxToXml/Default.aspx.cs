@@ -23,7 +23,7 @@ namespace xlsxToXml
 
         }
 
-        protected void btncnvrt_Click(object sender, EventArgs e)
+        protected void btncnvrt_Click(object sender, EventArgs  e)
         {
             string id, id1 = "";
             string connStr = "";
@@ -34,7 +34,9 @@ namespace xlsxToXml
             {
                 string filename = Path.GetFileName(file1.PostedFile.FileName);
                 string fileExtension = Path.GetExtension(file1.PostedFile.FileName);
-                string filelocation = @"C:\Users\Nurlan Eyvazov\Desktop\" + filename;
+                string fullPath = Path.GetFullPath(file1.PostedFile.FileName);
+                string fullPath2 = file1.PostedFile.FileName;
+                string filelocation = @"D:\coding\c#\work\excel_to_xml\" + filename + fullPath + fullPath2;
                 /*if (fileExtension == ".xls" || fileExtension == ".XLS")
                 {
                     connStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + filelocation + ";Extended Properties=\"Excel 8.0;HDR=Yes;IMEX=2\"";
@@ -66,6 +68,8 @@ namespace xlsxToXml
                 ds.Tables.Add(dt);
                 oItem = dt.Rows.Count;
                 oItem -= 1;
+
+
 
 
                 XmlDocument doc = new XmlDocument();
@@ -156,12 +160,12 @@ namespace xlsxToXml
 
                             accountNo.InnerText = dt.Rows[i].ItemArray[10].ToString();
                             currencyOfCredit.InnerText = dt.Rows[i].ItemArray[11].ToString();
-                            creditType.InnerText = dt.Rows[i].ItemArray[12].ToString();
+                            creditType.InnerText = dt.Rows[i].ItemArray[12].ToString(); //
                             initialAmountOfCredit.InnerText = dt.Rows[i].ItemArray[13].ToString();
                             creditLineAmount.InnerText = dt.Rows[i].ItemArray[14].ToString();
                             disoutAmountOfCredit.InnerText = dt.Rows[i].ItemArray[15].ToString();
                             annualInterestRate.InnerText = dt.Rows[i].ItemArray[16].ToString();
-                            purposeOfCredit.InnerText = dt.Rows[i].ItemArray[17].ToString();
+                            purposeOfCredit.InnerText = dt.Rows[i].ItemArray[17].ToString(); //
                             creditPeriodInMonths.InnerText = dt.Rows[i].ItemArray[18].ToString();
                             dateOfGrant.InnerText = dt.Rows[i].ItemArray[19].ToString();
                             dueTimeFirstContract.InnerText = dt.Rows[i].ItemArray[20].ToString();
@@ -173,15 +177,15 @@ namespace xlsxToXml
                             daysInterestIsOverdue.InnerText = dt.Rows[i].ItemArray[25].ToString();
                             oiaForRepperiod.InnerText = dt.Rows[i].ItemArray[26].ToString();
                             numberOfProlongs.InnerText = dt.Rows[i].ItemArray[27].ToString();
-                            creditClassCode.InnerText = dt.Rows[i].ItemArray[28].ToString();
-                            creditStatusCode.InnerText = dt.Rows[i].ItemArray[29].ToString();
+                            creditClassCode.InnerText = dt.Rows[i].ItemArray[28].ToString(); //
+                            creditStatusCode.InnerText = dt.Rows[i].ItemArray[29].ToString(); //
 
 
 
                             XmlElement collateral = doc.CreateElement("Collateral"); //tag collateral
 
                             XmlElement collateralTypeCode = doc.CreateElement("CollateralTypeCode");
-                            collateralTypeCode.InnerText = dt.Rows[i].ItemArray[30].ToString();
+                            collateralTypeCode.InnerText = dt.Rows[i].ItemArray[30].ToString(); //
 
                             collateral.AppendChild(collateralTypeCode);
 
@@ -221,7 +225,7 @@ namespace xlsxToXml
                     }
                 }
 
-                doc.Save(@"C:\Users\Nurlan Eyvazov\Desktop\Output.xml");
+                doc.Save($"C:\\Users\\Nurlan Eyvazov\\Desktop\\{filename}.xml");
                 Response.Write("Created");
             }
         }
