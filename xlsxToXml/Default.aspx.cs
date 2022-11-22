@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Ajax.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
@@ -65,10 +66,17 @@ namespace xlsxToXml
                 grdExcel.DataSource = dt;
                 grdExcel.DataBind();
 
+                
+
                 DataSet ds = new DataSet();
                 ds.Tables.Add(dt);
                 oItem = dt.Rows.Count;
                 oItem -= 1;
+                /*if (ds.Tables.OfType<DataTable>().Any(x => x.Rows.OfType<DataRow>().Any(y => y.ItemArray.Any(z => z == null || z == DBNull.Value))))
+                {
+
+                }*/
+                //ds.Tables.OfType<DataTable>().Any(x => x.Rows.OfType<DataRow>().Any(y => y.ItemArray.Any(z => z == null || z == DBNull.Value)));
 
 
                 XmlDocument doc = new XmlDocument();
@@ -135,6 +143,8 @@ namespace xlsxToXml
                             borrower.AppendChild(placeOfBirth);
                             borrower.AppendChild(pinCode);
 
+                            
+
                             XmlElement guarantees = doc.CreateElement("Guarantees");
                             XmlElement guaranteeG = doc.CreateElement("Guarantee");
 
@@ -145,11 +155,25 @@ namespace xlsxToXml
                             XmlElement placeOfBirthG = doc.CreateElement("PlaceOfBirth");
                             XmlElement pinCodeG = doc.CreateElement("PinCode");
 
+                            foreach (DataRow row in dt.Rows) 
+                            {
+                                object value = row[14];
+                                if (value == DBNull.Value)
+                                {
+                                    
+                                }
+                                else
+                                {
+                                    placeOfBirthG.InnerText = dt.Rows[i].ItemArray[14].ToString().Trim();
+                                }
+
+                            }
+                            
                             iddG.InnerText = dt.Rows[i].ItemArray[10].ToString().Trim();
                             nameG.InnerText = dt.Rows[i].ItemArray[11].ToString().Trim();
                             countryCodeG.InnerText = dt.Rows[i].ItemArray[12].ToString().Trim();
                             dateOfBirthG.InnerText = dt.Rows[i].ItemArray[13].ToString().Trim();
-                            placeOfBirthG.InnerText = dt.Rows[i].ItemArray[14].ToString().Trim();
+                            //placeOfBirthG.InnerText = dt.Rows[i].ItemArray[14].ToString().Trim();
                             pinCodeG.InnerText = dt.Rows[i].ItemArray[15].ToString().Trim();
 
 
@@ -219,6 +243,10 @@ namespace xlsxToXml
                             anyInfoToDisting.InnerText = dt.Rows[i].ItemArray[37].ToString(); //
                             marketValue.InnerText = dt.Rows[i].ItemArray[38].ToString(); //
                             registryNo.InnerText = dt.Rows[i].ItemArray[39].ToString(); //
+                            /*if (registryNo == null)
+                            {
+
+                            }*/
                             registryDate.InnerText = dt.Rows[i].ItemArray[40].ToString(); //
                             registryAgency.InnerText = dt.Rows[i].ItemArray[41].ToString(); //
 
