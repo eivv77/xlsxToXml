@@ -72,13 +72,7 @@ namespace xlsxToXml
                 ds.Tables.Add(dt);
                 oItem = dt.Rows.Count;
                 oItem -= 1;
-                /*if (ds.Tables.OfType<DataTable>().Any(x => x.Rows.OfType<DataRow>().Any(y => y.ItemArray.Any(z => z == null || z == DBNull.Value))))
-                {
-
-                }*/
-                //ds.Tables.OfType<DataTable>().Any(x => x.Rows.OfType<DataRow>().Any(y => y.ItemArray.Any(z => z == null || z == DBNull.Value)));
-
-
+                
                 XmlDocument doc = new XmlDocument();
                 XmlDeclaration declaire = doc.CreateXmlDeclaration("1.0", "utf-8", null); //+
                 // -----------------------create root-----------------------------  
@@ -155,27 +149,28 @@ namespace xlsxToXml
                             XmlElement placeOfBirthG = doc.CreateElement("PlaceOfBirth");
                             XmlElement pinCodeG = doc.CreateElement("PinCode");
 
-                            foreach (DataRow row in dt.Rows) 
+
+
+                            foreach (DataRow row in dt.Rows)
                             {
                                 object value = row[14];
-                                if (value == DBNull.Value)
+                                if (value == null && value is string valueStr && string.IsNullOrWhiteSpace(valueStr))
                                 {
-                                    
+                                    placeOfBirthG.InnerText = dt.Rows[i].ItemArray[14].ToString();
                                 }
                                 else
                                 {
-                                    placeOfBirthG.InnerText = dt.Rows[i].ItemArray[14].ToString().Trim();
                                 }
-
                             }
-                            
+
+
                             iddG.InnerText = dt.Rows[i].ItemArray[10].ToString().Trim();
                             nameG.InnerText = dt.Rows[i].ItemArray[11].ToString().Trim();
                             countryCodeG.InnerText = dt.Rows[i].ItemArray[12].ToString().Trim();
                             dateOfBirthG.InnerText = dt.Rows[i].ItemArray[13].ToString().Trim();
+
                             //placeOfBirthG.InnerText = dt.Rows[i].ItemArray[14].ToString().Trim();
                             pinCodeG.InnerText = dt.Rows[i].ItemArray[15].ToString().Trim();
-
 
                             guaranteeG.AppendChild(iddG);
                             guaranteeG.AppendChild(nameG);
@@ -247,7 +242,20 @@ namespace xlsxToXml
                             {
 
                             }*/
-                            registryDate.InnerText = dt.Rows[i].ItemArray[40].ToString(); //
+
+                            foreach (DataRow row in dt.Rows)
+                            {
+                                object value = row[40];
+                                if (value == null || value is string valueStr && string.IsNullOrWhiteSpace(valueStr))
+                                {
+                                    registryDate.InnerText = dt.Rows[i].ItemArray[40].ToString();
+                                }
+                                else
+                                {
+                                }
+                            }
+
+                            //registryDate.InnerText = dt.Rows[i].ItemArray[40].ToString(); //
                             registryAgency.InnerText = dt.Rows[i].ItemArray[41].ToString(); //
 
                             collateral.AppendChild(collateralTypeCode);
