@@ -566,7 +566,6 @@ namespace xlsxToXml
                             {
                                 bankruptcyStatus.InnerText = "EMPTY_VALUE";
                             }
-                            bankruptcyStatus.InnerText = dt.Rows[i].ItemArray[6].ToString();
 
                             if (dt.Rows[i].ItemArray[7].ToString() != "")
                             {
