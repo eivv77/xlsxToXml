@@ -420,11 +420,14 @@ namespace xlsxToXml
 
             if (file1.HasFile)
             {
+                #region connection 
                 string filename = Path.GetFileName(file1.PostedFile.FileName);
                 string fileExtension = Path.GetExtension(file1.PostedFile.FileName);
                 //string fullPath = Path.GetFullPath(file1.PostedFile.FileName);
                 //string fullPath2 = file1.PostedFile.FileName;
-                string filelocation = @"D:\coding\c#\work\excel_to_xml\" + filename;
+                //string filelocation = @"D:\coding\c#\work\1WORK\excel_to_xml\" + filename;
+
+                string filelocation = Server.MapPath("~/Uploaded_Files/") + filename;
                 /*if (fileExtension == ".xls" || fileExtension == ".XLS")
                 {
                     connStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + filelocation + ";Extended Properties=\"Excel 8.0;HDR=Yes;IMEX=2\"";
@@ -452,20 +455,21 @@ namespace xlsxToXml
                 grdExcel.DataSource = dt;
                 grdExcel.DataBind();
 
-
+                #endregion
 
                 DataSet ds = new DataSet();
                 ds.Tables.Add(dt);
                 oItem = dt.Rows.Count;
                 oItem -= 1;
 
-
+                #region xml
                 XmlDocument doc = new XmlDocument();
                 XmlDeclaration declaire = doc.CreateXmlDeclaration("1.0", "utf-8", null); //+
                 // -----------------------create root-----------------------------  
                 XmlElement creditInfo = doc.CreateElement("CreditInfo");
                 doc.InsertBefore(declaire, doc.DocumentElement);
                 doc.AppendChild(creditInfo);
+                #endregion
 
                 while (i < oItem)
                 {
@@ -966,5 +970,50 @@ namespace xlsxToXml
                 Response.Write("Created");
             }
         }
+
+        /*void UploadFile()
+        {
+            try
+            {
+                if (fuFileUpload.HasFile)
+                {
+                    //Check File Extension
+                    string fileExtension = System.IO.Path.GetExtension(fuFileUpload.FileName);
+
+                    if (fileExtension.ToLower() != ".xls" && fileExtension.ToLower() != ".xlsx")
+                    {
+                        lblMessage.Text = "Files with .xls and .xlsx only allowed.";
+                        lblMessage.ForeColor = System.Drawing.Color.Red;
+                    }
+                    else
+                    {
+                        string folderPath = Server.MapPath("~/UploadedFiles/");
+
+                        //Check whether Directory is available or not.
+                        if (!Directory.Exists(folderPath))
+                        {
+                            //if directory is not available, then create a folder.
+                            Directory.CreateDirectory(folderPath);
+                        }
+
+                        //save the file to folder
+                        fuFileUpload.SaveAs(folderPath + Path.GetFileName(fuFileUpload.FileName));
+
+                        //dispaly message after uploaded
+                        lblMessage.Text = "File " + Path.GetFileName(fuFileUpload.FileName) + " uploaded successfully...!";
+                    }
+                }
+                else
+                {
+                    lblMessage.Text = "Please select a file to upload.";
+                    lblMessage.ForeColor = System.Drawing.Color.Red;
+                }
+            }
+            catch (Exception ex)
+            {
+                lblMessage.Text = ex.Message;
+                lblMessage.ForeColor = System.Drawing.Color.Red;
+            }
+        }*/
     }
 }
