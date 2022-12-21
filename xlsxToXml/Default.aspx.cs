@@ -451,6 +451,11 @@ namespace xlsxToXml
                 cmd.CommandText = "select * from [" + sheetName + "]";
                 da.SelectCommand = cmd;
                 da.Fill(dt);
+
+                DataRow dr = dt.NewRow(); //add last row for XML
+                dr["id"] = string.Empty;
+                dt.Rows.Add(dr);
+
                 conn.Close();
                 grdExcel.DataSource = dt;
                 grdExcel.DataBind();
@@ -459,8 +464,8 @@ namespace xlsxToXml
 
                 DataSet ds = new DataSet();
                 ds.Tables.Add(dt);
-                oItem = dt.Rows.Count;
-                oItem -= 1;
+                oItem = dt.Rows.Count; //6
+                oItem -= 1; //5
 
                 #region xml
                 XmlDocument doc = new XmlDocument();
@@ -471,8 +476,9 @@ namespace xlsxToXml
                 doc.AppendChild(creditInfo);
                 #endregion
 
-                while (i < oItem)
+                while (i < oItem) // 0 < 5
                 {
+                    #region base
                     id = dt.Rows[i].ItemArray[0].ToString();
 
                     if (id != id1)
@@ -520,6 +526,9 @@ namespace xlsxToXml
                         doc.DocumentElement.AppendChild(header);
                           
                         XmlElement credits = doc.CreateElement("Credits");
+
+#endregion
+
                         do
                         {
                             #region main 
@@ -954,22 +963,27 @@ namespace xlsxToXml
 
                             credit.AppendChild(collateral);
 
-                            #endregion
 
                             //borrower.AppendChild(guarantees);
                             //guarantees.AppendChild(guaranteeG);
                             credits.AppendChild(credit);
                             creditInfo.AppendChild(credits);
+                            #endregion
+
                             i++;
-                        } while (id1 == dt.Rows[i].ItemArray[0].ToString() && i < oItem);
+                        } while (id1 == dt.Rows[i].ItemArray[0].ToString() && i < oItem); // 
+
                         doc.DocumentElement.AppendChild(credits);
                     }
                 }
 
-                doc.Save($"C:\\Users\\nurlan.eyvazov\\Desktop\\{filename}.xml");
+                doc.Save(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), $"{filename}.xml"));
+
                 Response.Write("Created");
             }
         }
+
+
 
         /*void UploadFile()
         {
