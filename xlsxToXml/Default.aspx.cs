@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.OleDb;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
@@ -464,19 +465,22 @@ namespace xlsxToXml
 
                 DataSet ds = new DataSet();
                 ds.Tables.Add(dt);
-                oItem = dt.Rows.Count; //6
-                oItem -= 1; //5
+                oItem = dt.Rows.Count;
+                oItem -= 1;
 
                 #region xml
+                XmlWriterSettings settings = new XmlWriterSettings { Indent = true };
+                XmlWriter writer = XmlWriter.Create(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), $"{filename}.xml"), settings);
+
                 XmlDocument doc = new XmlDocument();
-                XmlDeclaration declaire = doc.CreateXmlDeclaration("1.0", "utf-8", null); //+
+                //XmlDeclaration declaire = doc.CreateXmlDeclaration("1.0", "utf-8", null); //+
                 // -----------------------create root-----------------------------  
                 XmlElement creditInfo = doc.CreateElement("CreditInfo");
-                doc.InsertBefore(declaire, doc.DocumentElement);
+                //doc.InsertBefore(declaire, doc.DocumentElement);
                 doc.AppendChild(creditInfo);
                 #endregion
 
-                while (i < oItem) // 0 < 5
+                while (i < oItem)
                 {
                     #region base
                     id = dt.Rows[i].ItemArray[0].ToString();
@@ -497,7 +501,7 @@ namespace xlsxToXml
                         }
                         else
                         {
-                            bankId.InnerText = "EMPTY_VALUE";
+                            bankId.InnerText = "";
                         }
 
                         if (dt.Rows[i].ItemArray[1].ToString() != "")
@@ -506,7 +510,7 @@ namespace xlsxToXml
                         }
                         else
                         {
-                            bankName.InnerText = "EMPTY_VALUE";
+                            bankName.InnerText = "";
                         }
 
                         if (dt.Rows[i].ItemArray[2].ToString() != "")
@@ -515,7 +519,7 @@ namespace xlsxToXml
                         }
                         else
                         {
-                            reportingDate.InnerText = "EMPTY_VALUE";
+                            reportingDate.InnerText = "";
                         }
 
                         header.AppendChild(bankId);
@@ -538,7 +542,9 @@ namespace xlsxToXml
 
                             XmlElement idd = doc.CreateElement("id");             //tag borrower
                             XmlElement name = doc.CreateElement("name");
+
                             XmlElement countryCode = doc.CreateElement("CountryCode");
+
                             XmlElement bankruptcyStatus = doc.CreateElement("BankruptcyStatus");
                             XmlElement dateOfBirth = doc.CreateElement("DateOfBirth");
                             XmlElement placeOfBirth = doc.CreateElement("PlaceOfBirth");
@@ -550,7 +556,7 @@ namespace xlsxToXml
                             }
                             else
                             {
-                                idd.InnerText = "EMPTY_VALUE";
+                                idd.InnerText = "";
                             }
 
                             if (dt.Rows[i].ItemArray[4].ToString() != "")
@@ -559,16 +565,26 @@ namespace xlsxToXml
                             }
                             else
                             {
-                                name.InnerText = "EMPTY_VALUE";
+                                name.InnerText = "";
                             }
 
-                            if (dt.Rows[i].ItemArray[5].ToString() != "")
+                            /*if (dt.Rows[i].ItemArray[5].ToString() != "")
                             {
                                 countryCode.InnerText = dt.Rows[i].ItemArray[5].ToString();
                             }
                             else
                             {
-                                countryCode.InnerText= "EMPTY_VALUE";
+                                countryCode.InnerText= "";
+                            }*/
+
+                            if (!String.IsNullOrWhiteSpace(dt.Rows[i].ItemArray[5].ToString()))
+                            {
+                                countryCode.InnerText = dt.Rows[i].ItemArray[5].ToString();
+                            }
+                            else
+                            {
+                                countryCode.InnerText = ""; // null, string.Empty, ""   - ничего из этого не работает :d
+
                             }
 
                             if (dt.Rows[i].ItemArray[6].ToString() != "")
@@ -577,7 +593,7 @@ namespace xlsxToXml
                             }
                             else
                             {
-                                bankruptcyStatus.InnerText = "EMPTY_VALUE";
+                                bankruptcyStatus.InnerText = "";
                             }
 
                             if (dt.Rows[i].ItemArray[7].ToString() != "")
@@ -586,7 +602,7 @@ namespace xlsxToXml
                             }
                             else
                             {
-                                dateOfBirth.InnerText = "EMPTY_VALUE";
+                                dateOfBirth.InnerText = "";
                             }
 
                             if (dt.Rows[i].ItemArray[8].ToString() != "")
@@ -595,7 +611,7 @@ namespace xlsxToXml
                             }
                             else
                             {
-                                placeOfBirth.InnerText = "EMPTY_VALUE";
+                                placeOfBirth.InnerText = "";
                             }
 
                             if (dt.Rows[i].ItemArray[9].ToString() != "")
@@ -604,7 +620,7 @@ namespace xlsxToXml
                             }
                             else
                             {
-                                pinCode.InnerText = "EMPTY_VALUE";
+                                pinCode.InnerText = "";
                             }
 
                             borrower.AppendChild(idd);
@@ -689,7 +705,7 @@ namespace xlsxToXml
                             }
                             else
                             {
-                                accountNo.InnerText = "EMPTY_VALUE";
+                                accountNo.InnerText = "";
                             }
 
                             if (dt.Rows[i].ItemArray[11].ToString() != "")
@@ -698,7 +714,7 @@ namespace xlsxToXml
                             }
                             else
                             {
-                                currencyOfCredit.InnerText = "EMPTY_VALUE";
+                                currencyOfCredit.InnerText = "";
                             }
 
                             if (dt.Rows[i].ItemArray[12].ToString() != "")
@@ -707,7 +723,7 @@ namespace xlsxToXml
                             }
                             else
                             {
-                                creditType.InnerText = "EMPTY_VALUE";
+                                creditType.InnerText = "";
                             }
 
                             if (dt.Rows[i].ItemArray[13].ToString() != "")
@@ -716,7 +732,7 @@ namespace xlsxToXml
                             }
                             else
                             {
-                                initialAmountOfCredit.InnerText = "EMPTY_VALUE";
+                                initialAmountOfCredit.InnerText = "";
                             }
 
                             if (dt.Rows[i].ItemArray[14].ToString() != "")
@@ -725,7 +741,7 @@ namespace xlsxToXml
                             }
                             else
                             {
-                                creditLineAmount.InnerText = "EMPTY_VALUE";
+                                creditLineAmount.InnerText = "";
 
                             }
 
@@ -735,7 +751,7 @@ namespace xlsxToXml
                             }
                             else
                             {
-                                disoutAmountOfCredit.InnerText = "EMPTY_VALUE";
+                                disoutAmountOfCredit.InnerText = "";
                             }
 
                             if (dt.Rows[i].ItemArray[16].ToString() != "")
@@ -753,7 +769,7 @@ namespace xlsxToXml
                             }
                             else
                             {
-                                purposeOfCredit.InnerText = "EMPTY_VALUE";
+                                purposeOfCredit.InnerText = "";
                             }
 
                             if (dt.Rows[i].ItemArray[18].ToString() != "")
@@ -762,7 +778,7 @@ namespace xlsxToXml
                             }
                             else
                             {
-                                creditPeriodInMonths.InnerText = "EMPTY_VALUE";
+                                creditPeriodInMonths.InnerText = "";
 
                             }
 
@@ -772,7 +788,7 @@ namespace xlsxToXml
                             }
                             else
                             {
-                                dateOfGrant.InnerText = "EMPTY_VALUE";
+                                dateOfGrant.InnerText = "";
                             }
 
                             if (dt.Rows[i].ItemArray[20].ToString() != "")
@@ -781,7 +797,7 @@ namespace xlsxToXml
                             }
                             else
                             {
-                                dueTimeFirstContract.InnerText = "EMPTY_VALUE";
+                                dueTimeFirstContract.InnerText = "";
                             }
 
                             if (dt.Rows[i].ItemArray[21].ToString() != "")
@@ -790,7 +806,7 @@ namespace xlsxToXml
                             }
                             else
                             {
-                                dueTimeLastContract.InnerText = "EMPTY_VALUE";
+                                dueTimeLastContract.InnerText = "";
                             }
 
                             if (dt.Rows[i].ItemArray[22].ToString() != "")
@@ -799,7 +815,7 @@ namespace xlsxToXml
                             }
                             else
                             {
-                                lastPaymentDate.InnerText = "EMPTY_VALUE";
+                                lastPaymentDate.InnerText = "";
                             }
 
                             if (dt.Rows[i].ItemArray[23].ToString() != "")
@@ -808,7 +824,7 @@ namespace xlsxToXml
                             }
                             else
                             {
-                                monthlyPaymentAmount.InnerText = "EMPTY_VALUE";
+                                monthlyPaymentAmount.InnerText = "";
                             }
 
                             if (dt.Rows[i].ItemArray[24].ToString() != "")
@@ -817,7 +833,7 @@ namespace xlsxToXml
                             }
                             else
                             {
-                                daysMainSumIsOverdue.InnerText = "EMPTY_VALUE";
+                                daysMainSumIsOverdue.InnerText = "";
                             }
 
                             if (dt.Rows[i].ItemArray[25].ToString() != "")
@@ -826,7 +842,7 @@ namespace xlsxToXml
                             }
                             else
                             {
-                                daysInterestIsOverdue.InnerText = "EMPTY_VALUE";
+                                daysInterestIsOverdue.InnerText = "";
                             }
 
                             if (dt.Rows[i].ItemArray[26].ToString() != "")
@@ -835,7 +851,7 @@ namespace xlsxToXml
                             }
                             else
                             {
-                                oiaForRepperiod.InnerText = "EMPTY_VALUE";
+                                oiaForRepperiod.InnerText = "";
                             }
 
                             if (dt.Rows[i].ItemArray[27].ToString() != "")
@@ -844,7 +860,7 @@ namespace xlsxToXml
                             }
                             else
                             {
-                                numberOfProlongs.InnerText = "EMPTY_VALUE";
+                                numberOfProlongs.InnerText = "";
                             }
 
                             if (dt.Rows[i].ItemArray[28].ToString() != "")
@@ -853,7 +869,7 @@ namespace xlsxToXml
                             }
                             else
                             {
-                                creditClassCode.InnerText = "EMPTY_VALUE";
+                                creditClassCode.InnerText = "";
                             }
 
                             if (dt.Rows[i].ItemArray[29].ToString() != "")
@@ -862,7 +878,7 @@ namespace xlsxToXml
                             }
                             else
                             {
-                                creditStatusCode.InnerText = "EMPTY_VALUE";
+                                creditStatusCode.InnerText = "";
                             }
 
 
@@ -881,7 +897,7 @@ namespace xlsxToXml
                             }
                             else
                             {
-                                collateralTypeCode.InnerText = "EMPTY_VALUE";
+                                collateralTypeCode.InnerText = "";
                             }
 
                             if (dt.Rows[i].ItemArray[31].ToString() != "")
@@ -890,7 +906,7 @@ namespace xlsxToXml
                             }
                             else
                             {
-                                anyInfoToDisting.InnerText = "EMPTY_VALUE";
+                                anyInfoToDisting.InnerText = "";
                             }
 
                             if (dt.Rows[i].ItemArray[32].ToString() != "")
@@ -899,7 +915,7 @@ namespace xlsxToXml
                             }
                             else
                             {
-                                marketValue.InnerText = "EMPTY_VALUE";
+                                marketValue.InnerText = "";
                             }
 
                             if (dt.Rows[i].ItemArray[33].ToString() != "")
@@ -908,7 +924,7 @@ namespace xlsxToXml
                             }
                             else
                             {
-                                registryNo.InnerText = "EMPTY_VALUE";
+                                registryNo.InnerText = "";
                             }
 
                             if (dt.Rows[i].ItemArray[34].ToString() != "")
@@ -917,7 +933,7 @@ namespace xlsxToXml
                             }
                             else
                             {
-                                registryDate.InnerText = "EMPTY_VALUE";
+                                registryDate.InnerText = "";
                             }
 
                             if (dt.Rows[i].ItemArray[35].ToString() != "")
@@ -926,7 +942,7 @@ namespace xlsxToXml
                             }
                             else
                             {
-                                registryAgency.InnerText = "EMPTY_VALUE";
+                                registryAgency.InnerText = "";
                             }
 
 
@@ -971,13 +987,14 @@ namespace xlsxToXml
                             #endregion
 
                             i++;
-                        } while (id1 == dt.Rows[i].ItemArray[0].ToString() && i < oItem); // 
+                        } while (id1 == dt.Rows[i].ItemArray[0].ToString() && i < oItem);
 
                         doc.DocumentElement.AppendChild(credits);
                     }
                 }
 
-                doc.Save(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), $"{filename}.xml"));
+                //doc.Save(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), $"{filename}.xml"));
+                doc.Save(writer);
 
                 Response.Write("Created");
             }
