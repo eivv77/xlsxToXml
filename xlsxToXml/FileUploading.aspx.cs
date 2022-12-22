@@ -54,8 +54,8 @@ namespace xlsxToXml
                         //dispaly message after uploaded
                         lblMessage.Text = "File " + Path.GetFileName(fuFileUpload.FileName) + " uploaded successfully...!";
                     }
-                }
-                else
+                }   
+                else 
                 {
                     lblMessage.Text = "Please select a file to upload.";
                     lblMessage.ForeColor = System.Drawing.Color.Red;
