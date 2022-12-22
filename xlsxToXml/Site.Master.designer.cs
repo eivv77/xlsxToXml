@@ -12,7 +12,7 @@ namespace xlsxToXml
 
 
     public partial class SiteMaster
-    {
+    {   
 
         /// <summary>
         /// MainContent control.
