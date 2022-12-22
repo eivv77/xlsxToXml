@@ -5,7 +5,7 @@
 <body>
     <form id="form1">
         <div>
-            <asp:Table ID="tblFileUpload" runat="server" HorizontalAlign="Center" BorderColor="Black" BorderStyle="Solid" BorderWidth="1">
+            <asp:Table ID="tblFileUpload" runat="server" HorizontalAlign="Center" BorderColor="Black" BorderStyle="Solid" BorderWidth="2">
                 <asp:TableHeaderRow>
                     <asp:TableHeaderCell Font-Bold="true" Font-Size="X-Large" ColumnSpan="3" ForeColor="Blue">
                 FILE UPLOADING<hr />
